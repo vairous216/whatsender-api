@@ -7,25 +7,25 @@ import cors from 'cors'
 
 const app = express()
 
-const host = process.env.WA_SERVER_HOST || undefined
-const port = process.env.PORT || process.env.WA_SERVER_PORT || 8000
-
+// IMPORTANT for Railway
+const port = process.env.PORT || 8000
+const host = "0.0.0.0"
 
 app.use(cors())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
+
+// Health check route
+app.get("/", (req, res) => {
+    res.json({ status: "Whatsender API is running 🚀" })
+})
+
 app.use('/', routes)
 
-const listenerCallback = () => {
+app.listen(port, host, () => {
+    console.log(`Server running on http://${host}:${port}`)
     init()
-    console.log(`Server is listening on http://${host ? host : 'localhost'}:${port}`)
-}
-
-if (host) {
-    app.listen(port, host, listenerCallback)
-} else {
-    app.listen(port, listenerCallback)
-}
+})
 
 nodeCleanup(cleanup)
 
