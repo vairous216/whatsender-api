@@ -7,7 +7,9 @@ import response from './response.js'
 import authenticationValidator from './middlewares/authenticationValidator.js'
 
 const router = Router()
-
+router.get("/", (req, res) => {
+    res.json({ status: "Whatsender API running 🚀" })
+})
 // Use auth middleware for all routes
 router.use(authenticationValidator)
 
